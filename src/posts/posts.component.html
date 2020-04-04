@@ -1,7 +1,12 @@
 <h1>Posts</h1>
 
+<div class="post-container">
+    <input matInput id="post-content" placeholder="Post content">
+    <button mat-raised-button (click)="addPost()">Submit</button>
+</div>
+
 <div class="container">
-    <mat-card>post 1</mat-card>
-    <mat-card>post 2</mat-card>
-    <mat-card>post 3</mat-card>
+    <mat-card *ngFor="let post of posts">
+        {{ post.body }}
+    </mat-card>
 </div>
