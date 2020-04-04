@@ -1,0 +1,14 @@
+<h1>Comment on the post below</h1>
+
+<div class="comment-container">
+    <input matInput id="comment-content" placeholder="Add a comment">
+    <button mat-raised-button (click)="addComment()">Submit</button>
+</div>
+
+<div class="container">
+    <h3>{{ post.body }}</h3>
+    <mat-card *ngFor="let comment of comments">
+        {{ comment.body }}
+    </mat-card>
+    <button mat-raised-button (click)="goBack()">Back to Posts</button>
+</div>

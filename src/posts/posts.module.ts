@@ -5,9 +5,10 @@ import { PostsRoutingModule } from './posts-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
-  declarations: [PostsComponent],
+  declarations: [PostsComponent, CommentsComponent],
   imports: [
     CommonModule,
     PostsRoutingModule,
