@@ -1,4 +1,4 @@
 export interface Comment {
-    post_id: number,
+    commentId: number,
     body: string
 }

@@ -3,6 +3,7 @@ import { Post } from '../models/post.interface';
 import { Comment } from '../models/comment.interface';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { PostsService } from '../posts.service';
 
 @Component({
   selector: 'app-comments',
@@ -10,28 +11,27 @@ import { Location } from '@angular/common';
   styleUrls: ['./comments.component.scss']
 })
 export class CommentsComponent implements OnInit {
-  private commentsArray: Comment[];
   public post: Post;
   public comments: Comment[];
 
   constructor(private route: ActivatedRoute,
-              private router: Location) { 
-    this.getPost();
-    this.getComments();
+              private router: Location,
+              private postsService: PostsService) { 
+    this.getPostComments();
   }
 
   ngOnInit(): void {
   }
 
   public addComment(): void {
-    const comment: Comment = { 
-      post_id: this.post.id, 
-      body: (<HTMLInputElement>document.getElementById('comment-content')).value
+    const comment = { 
+      body: (<HTMLInputElement>document.getElementById('comment-content')).value,
+      post: this.post
     }
 
-    this.comments.push(comment);
-    this.commentsArray.push(comment);
-    sessionStorage.setItem('comments', JSON.stringify(this.commentsArray));
+    this.postsService.addComment(comment).subscribe(comment => {
+      this.comments.push(comment);
+    });
 
     (<HTMLInputElement>document.getElementById('comment-content')).value = '';
   }
@@ -40,14 +40,12 @@ export class CommentsComponent implements OnInit {
     this.router.back();
   }
 
-  private getPost(): void {
-    const posts: Post[] = JSON.parse(sessionStorage.getItem('posts'));
+  private getPostComments(): void {
     const post_id = Number(this.route.snapshot.paramMap.get('id'));
-    this.post = posts.find(p => p.id === post_id);
-  }
 
-  private getComments(): void {
-    this.commentsArray = JSON.parse(sessionStorage.getItem('comments') || '[]');
-    this.comments = this.commentsArray.filter(c => c.post_id === this.post.id);
+    this.postsService.getPost(post_id).subscribe(post => {
+      this.post = post;
+      this.comments = post.comments;
+    });
   }
 }

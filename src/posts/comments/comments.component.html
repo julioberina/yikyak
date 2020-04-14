@@ -6,7 +6,7 @@
 </div>
 
 <div class="container">
-    <h3>{{ post.body }}</h3>
+    <h3>{{ post?.body }}</h3>
     <mat-card *ngFor="let comment of comments">
         {{ comment.body }}
     </mat-card>
